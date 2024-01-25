@@ -43,6 +43,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// Hide the console window
 	ShowWindow(GetConsoleWindow(), SW_HIDE);
 
+	HANDLE hMutex = CreateMutex(NULL, TRUE, "keymapper_instance");
+
+	if (GetLastError() == ERROR_ALREADY_EXISTS) {
+		MessageBox(NULL, "Another instance of the program is already running.", "Program Already Running", MB_ICONINFORMATION | MB_OK);
+		CloseHandle(hMutex);
+		return 1;	
+	}
+
 	while (true) {
 		// Check if Shift and Escape keys are pressed
 		if (GetAsyncKeyState(VK_SHIFT) & 0x8000 && GetAsyncKeyState(VK_ESCAPE) & 0x8000) {
