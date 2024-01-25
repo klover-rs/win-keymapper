@@ -47,7 +47,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	if (GetLastError() == ERROR_ALREADY_EXISTS) {
 		MessageBox(NULL, "Another instance of the program is already running.", "Program Already Running", MB_ICONINFORMATION | MB_OK);
-		CloseHandle(hMutex);
+		if (hMutex != 0) {
+			CloseHandle(hMutex);
+		}
 		return 1;	
 	}
 
